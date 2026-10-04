@@ -22,5 +22,5 @@ spec:
         envFrom:
         - configMapRef:
             name: app-config
-        - secreRef:
+        - secretRef:
             name: db-secrets
