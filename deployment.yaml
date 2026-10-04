@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: hello-app
-        image: ghcr.io/kehindejejelaye/hello-app:8ef10808a9abb4c16358b81a8c4fab3260139535
+        image: ghcr.io/kehindejejelaye/hello-app:253b24451d103926514e58f182161c95fddee443
         ports:
         - containerPort: 8080
