@@ -19,3 +19,8 @@ spec:
         image: ghcr.io/kehindejejelaye/hello-app:8ef10808a9abb4c16358b81a8c4fab3260139535
         ports:
         - containerPort: 8080
+        envFrom:
+        - configMapRef:
+            name: app-config
+        - secreRef:
+            name: db-secrets

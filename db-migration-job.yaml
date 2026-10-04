@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-migration-job
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: db-migration
+        image: postgres:15-alpine
+        env:
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-secrets
+              key: POSTGRES_PASSWORD
+        command: ["sh", "-c"]
+        args:
+        - |
+          echo "Running database migrations..."
+          psql -h postgres-service.default.svc.cluster.local -U app_user -d app_db -c "
+            CREATE TABLE IF NOT EXISTS visits (
+              id SERIAL PRIMARY KEY,
+              visited_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+          "
+          echo "Migration completed successfully!"
